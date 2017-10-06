@@ -36,8 +36,6 @@ def log_frame(frame, should_update_source):
 starting_filename = os.path.abspath(sys.argv[1])
 starting_dir = os.path.dirname(starting_filename)
 
-# tracer_path = os.path.relpath(os.path.abspath(__file__), starting_dir)
-
 os.chdir(starting_dir)
 sys.path.insert(0, starting_dir)
 
@@ -46,34 +44,6 @@ current_line = None
 current_locals = {}
 failed = False
 
-def should_ignore_variable(name, value):
-    return name.startswith('__') and name.endswith('__')
-
-def truncate_list(l):
-    if len(l) > 3:
-        ret  = ', '.join(map(process_variable, l[:2]))
-        ret += ", ..., "
-        ret += process_variable(l[-1])
-        return ret
-    else:
-        return ', '.join(map(process_variable, l))
-
-def format_function(f):
-    args = inspect.getargspec(f).args
-    return "function(%s)" % truncate_list(args)
-
-def format_list(l):
-    return "[%s]" % truncate_list(l)
-
-def process_variable(var):
-    type_name = type(var).__name__
-    if type_name == 'list':
-        return format_list(var)
-    elif type_name == 'module':
-        return "<module '%s'>" % var.__name__
-    else:
-        return str(var)
-
 def get_module_name(full_path):
     global starting_filename
     return os.path.relpath(
@@ -81,26 +51,13 @@ def get_module_name(full_path):
         os.path.dirname(os.path.abspath(starting_filename))
     )
 
-def generate_switch_event(filename):
-    return {
-        'type': 'switch',
-        'filename': get_module_name(filename),
-        'source': ''.join(linecache.getlines(filename)),
-    }
-
 def generate_call_event(frame, should_update_source):
-    # frame_locals = {k: {'value': process_variable(v), 'type': type(v).__name__} for k, v in frame.f_locals.items() if not should_ignore_variable(k, v)}
     obj = {
         'type': 'call',
         'filename': get_module_name(frame.f_code.co_filename),
         'lineno': frame.f_lineno,
-        # 'frame_locals': frame_locals,
-        # 'function_name': frame.f_code.co_filename,
-        # 'time': time.time()
         'source': ''.join(linecache.getlines(frame.f_code.co_filename))
     }
-    # if should_update_source:
-        # obj['source'] = ''.join(linecache.getlines(frame.f_code.co_filename))
     return obj
     
 def generate_exception_event(e):
@@ -114,10 +71,8 @@ def generate_exception_event(e):
     }
 
 def local_trace(frame, why, arg):
-    global failed
     global current_line
     global current_filename
-    global starting_dir
 
     if failed:
         return
@@ -125,10 +80,7 @@ def local_trace(frame, why, arg):
     if why == 'exception':
         exc_type = arg[0].__name__
         exc_msg = arg[1]
-        #print "%s: %s" % (, )
-        #conn.send(json.dumps(generate_exception_event(frame, exc_type, exc_msg))+'\n')
         return
-    #print frame, why, arg, inspect.getframeinfo(frame)
 
     should_update_source = current_filename != frame.f_code.co_filename
     current_filename = frame.f_code.co_filename
