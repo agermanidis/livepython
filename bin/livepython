@@ -2,14 +2,6 @@
 
 const fs = require("fs");
 var electronPath = require("electron");
-try {
-  if (process.platform === "darwin") {
-    fs.statSync(__dirname + "/../livepython-darwin-x64/");
-    electronPath =
-      __dirname +
-      "/../livepython-darwin-x64/livepython.app/Contents/MacOS/livepython";
-  }
-} catch (e) {}
 
 const { spawn } = require("child_process");
 const byline = require("byline")
