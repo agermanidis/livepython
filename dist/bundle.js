@@ -21460,6 +21460,11 @@ var CodeView = function (_Component) {
       } catch (e) {}
     }
   }, {
+    key: 'spaceFixedLineNumber',
+    value: function spaceFixedLineNumber(curLine, totLines) {
+      return '\xA0'.repeat(totLines.toString().length - curLine.toString().length) + curLine.toString();
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.scrollToSelected();
@@ -21520,7 +21525,7 @@ var CodeView = function (_Component) {
           _react2.default.createElement(
             'p',
             { key: i, className: 'line-number' },
-            i + 1
+            this.spaceFixedLineNumber(i + 1, lines.length)
           ),
           _react2.default.createElement(
             _reactSyntaxHighlighter2.default,

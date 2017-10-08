@@ -18,11 +18,15 @@ class CodeView extends Component {
 
   scrollToSelected() {
     try {
-      jq("body").animate({ 
-        scrollTop: jq(".selected").offset().top - 500 
+      jq("body").animate({
+        scrollTop: jq(".selected").offset().top - 500
       }, 750);
     } catch (e) {
     }
+  }
+
+  spaceFixedLineNumber(curLine, totLines) {
+    return "\u00a0".repeat(totLines.toString().length - curLine.toString().length) + curLine.toString()
   }
 
   componentDidMount() {
@@ -81,7 +85,7 @@ class CodeView extends Component {
           }}
         >
           <p key={i} className="line-number">
-            {i + 1}
+            {this.spaceFixedLineNumber(i + 1, lines.length)}
           </p>
           <SyntaxHighlighter language="python" style={tomorrowNight}>
             {line}
