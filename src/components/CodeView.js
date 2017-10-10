@@ -16,32 +16,32 @@ class CodeView extends Component {
     };
   }
 
-  scrollToSelected() {
-    try {
-      jq("body").animate({
-        scrollTop: jq(".selected").offset().top - 500
-      }, 750);
-    } catch (e) {
-    }
-  }
-
   spaceFixedLineNumber(curLine, totLines) {
-    return "\u00a0".repeat(totLines.toString().length - curLine.toString().length) + curLine.toString()
+    return (
+      "\u00a0".repeat(totLines.toString().length - curLine.toString().length) +
+      curLine.toString()
+    );
   }
 
   componentDidMount() {
-    this.scrollToSelected();
+    this.tick();
   }
 
-  componentDidUpdate () {
-    this.scrollToSelected();
+  tick() {
+    try {
+      const currentOffset = document.scrollingElement.scrollTop;
+      const targetOffset = jq(".selected").offset().top - 400;
+      const change = (targetOffset - currentOffset) / 30;
+      document.scrollingElement.scrollTop += change;
+    } catch (e) {}
+    requestAnimationFrame(this.tick.bind(this));
   }
 
   componentWillReceiveProps(props) {
     var activity = JSON.parse(JSON.stringify(this.state.activity)) || {};
 
     if (!hasOwnProperty.call(activity, props.filename)) {
-      activity[props.filename] = {}
+      activity[props.filename] = {};
     }
 
     activity[props.filename][props.lineno - 1] = Date.now();
@@ -74,8 +74,8 @@ class CodeView extends Component {
       ) {
         cs += " selected";
       }
-      const lastActive = this.state.activity[this.props.filename][i] || 0
-      const opacity = 1 - Math.min(1, (Date.now() - lastActive)/1000)
+      const lastActive = this.state.activity[this.props.filename][i] || 0;
+      const opacity = 1 - Math.min(1, (Date.now() - lastActive) / 800);
       var el = (
         <div
           key={i}

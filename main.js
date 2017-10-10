@@ -5,20 +5,24 @@ const url = require('url')
 let win
 
 function createWindow () {
-  win = new BrowserWindow({width: 750, height: 1000})
+  win = new BrowserWindow({
+    x: 20, 
+    y: 0, 
+    width: 750, 
+    height: 1000,
+    icon: path.join(__dirname, 'livepython.png'),
+    title: "livepython"
+  })
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'dist', 'index.html'),
     protocol: 'file:',
-    title: "livepython",
-    frame: false,
     slashes: true,
-    icon: path.join(__dirname, 'livepython.png')
   }))
 
 
-  ipcMain.on("connected", () => {
-    process.send("connected")
+  ipcMain.on("command", (evt, msg) => {
+    process.send(msg)
   })
 
   process.on('message', message => {

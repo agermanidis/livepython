@@ -11,6 +11,11 @@ Livepython can be launched from the command-line as easily as:
 
     livepython [program] [args...]
 
+**Controls:**
+
+SPACE: Play/pause the program.
+Left/Right Arrow: Change speed of execution.
+
 ### Compatibility
 
 | **Python Version** | **Compatible?** |

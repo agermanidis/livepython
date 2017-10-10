@@ -14,6 +14,7 @@
     "electron": "1.7.8",
     "electron-packager": "^9.1.0",
     "jquery": "^3.2.1",
+    "mousetrap": "^1.6.1",
     "process-nextick-args": "^1.0.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

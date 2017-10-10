@@ -174,3 +174,29 @@ code {
     padding-top: 10px;
     padding-left: 5px;
 }
+
+.status-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  margin-top: -75px;
+  margin-left: -75px;
+}
+
+#variables-view {
+    font-family: Helvetica Neue;
+}
+
+#variable-search {
+    background: none;
+    outline: none;
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    border-left: 5px solid white;
+    margin-left: 20px;
+    margin: 10px;
+    color: white;
+}

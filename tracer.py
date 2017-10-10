@@ -7,30 +7,38 @@ import sys
 import threading
 import inspect
 import time
+import socket
 
-last_call = None
+state = {
+    'speed': 'slow'
+}
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("localhost", 4387))
+s.setblocking(False)
 
 def debounce(wait):
     def decorator(fn):
+        class context:
+            last_call = None
         def debounced(*args, **kwargs):
-            global last_call
-
             def call_it():
-                global last_call
-                args, kwargs = last_call
+                args, kwargs = context.last_call
                 fn(*args, **kwargs)
-                last_call = None
-            if last_call is None:
+                context.last_call = None
+            if context.last_call is None:
                 debounced.t = threading.Timer(wait, call_it)
                 debounced.t.start()
-            last_call = (args, kwargs)
+            context.last_call = (args, kwargs)
         return debounced
     return decorator
 
 
 def log(msg):
-    print('[LIVEPYTHON_TRACER] %s' % msg)
+    try:
+        s.send(bytes(msg+'\n', 'utf8'))
+    except:
+        s.send(msg+'\n')
     sys.stdout.flush()
 
 
@@ -80,7 +88,22 @@ def generate_exception_event(e):
     }
 
 
+def process_msg(msg):
+    global state
+    if type(msg) == bytes:
+        msg = msg.decode('utf8')
+    msg = json.loads(msg)
+    if msg['type'] == 'change_speed':
+        state['speed'] = msg['speed']
+
+
 def local_trace(frame, why, arg):
+    try:
+        received_msg = s.recv(1024)
+        process_msg(received_msg)
+    except:
+        pass
+
     global current_line
     global current_filename
 
@@ -109,6 +132,10 @@ def local_trace(frame, why, arg):
         return
 
     log_frame(frame, should_update_source)
+
+    if state['speed'] == 'slow':
+        time.sleep(1)
+
     return local_trace
 
 
