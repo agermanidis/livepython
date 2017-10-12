@@ -1,4 +1,4 @@
-![](https://i.imgur.com/TSNJJCm.gif)
+![](https://i.imgur.com/dWEHzD0.gif)
 
 ## Livepython 
 ### Watch your Python run like a movie.
@@ -14,6 +14,7 @@ Livepython can be launched from the command-line as easily as:
 **Controls:**
 
 SPACE: Play/pause the program.
+
 Left/Right Arrow: Change speed of execution.
 
 ### Compatibility

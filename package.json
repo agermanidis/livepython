@@ -1,7 +1,7 @@
 {
   "name": "livepython",
   "description": "Visually trace your Python program as it's running",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "main.js",
   "bin": {
     "livepython": "./bin/livepython"
