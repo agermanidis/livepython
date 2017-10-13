@@ -35,7 +35,7 @@ class MainView extends Component {
     }
 
     componentDidUpdate () {
-        document.title = this.state.filename;
+        document.title = 'Livepython - ' + this.state.filename;
     }
 
     componentWillMount () {
@@ -93,6 +93,10 @@ class MainView extends Component {
           return false;
         });
         
+        mousetrap.bind("v", evt => {
+          ipcRenderer.send("toggle_variable_inspector");
+          return false;
+        });
     }
 
 

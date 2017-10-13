@@ -36,8 +36,8 @@ body {
 
 }
 
-.selected {
-    /* background: #278865; */
+.selected-line {
+    background: #278865;
 
 }
 
@@ -199,4 +199,26 @@ code {
     margin-left: 20px;
     margin: 10px;
     color: white;
+}
+
+table {
+
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 0 5px;
+
+}
+
+thead {
+    background: #353434;
+    font-weight: bold;
+}
+
+/* tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.2);
+}
+ */
+td {
+    padding: 10px;
 }

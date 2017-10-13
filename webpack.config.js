@@ -2,7 +2,8 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        main: './src/index.js'
+        main: './src/index.js',
+        variable_inspector: './src/variable_inspector.js'
     },
     target: 'electron',
     module: {

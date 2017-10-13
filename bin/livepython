@@ -51,10 +51,8 @@ pythonProcess.stderr.on("data", data => {
 })
 
 pythonProcess.on("exit", (code) => {
-  if (code !== 0) {
-    electronProcess.kill('SIGINT')
-    process.exit();
-  }
+  electronProcess.kill('SIGINT')
+  process.exit();
 })
 
 electronProcess.on("message", msg => {
@@ -75,9 +73,9 @@ electronProcess.on("message", msg => {
 })
 
 function killSubprocesses (e) {
-  // console.log(e.toString())
-  electronProcess.kill("SIGINT")
-  pythonProcess.kill("SIGINT")
+  electronProcess.kill("SIGINT");
+  pythonProcess.kill("SIGINT");
+  process.exit();
 }
 
 process.on('exit', killSubprocesses)
