@@ -20849,7 +20849,7 @@ var VariableInspector = function (_Component) {
         var value = this.state.variables[name].value;
         var cs = 'variable-line';
         console.log(this.state.prevVariables[name], this.state.variables[name]);
-        if (this.state.prevVariables[name] && this.state.prevVariables[name].value !== this.state.variables[name].value) {
+        if (!this.state.prevVariables[name] || this.state.prevVariables[name].value !== this.state.variables[name].value) {
           cs += " selected-line";
         }
         console.log(value, typeof value === "undefined" ? "undefined" : _typeof(value));
