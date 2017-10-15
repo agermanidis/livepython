@@ -19,13 +19,17 @@ function openVariableInspector () {
       protocol: "file:",
       slashes: true
     }));
+
+  varInspector.on('close', () => {
+    varInspector = null;
+  })
 }
 
 function createWindow () {
   win = new BrowserWindow({
-    x: 20, 
-    y: 0, 
-    width: 750, 
+    x: 20,
+    y: 0,
+    width: 750,
     height: 1000,
     icon: path.join(__dirname, 'livepython.png'),
     title: "Livepython"
@@ -45,7 +49,6 @@ function createWindow () {
     if (varInspector) {
       varInspector.close();
       varInspector = null;
-
     } else {
       openVariableInspector();
     }
