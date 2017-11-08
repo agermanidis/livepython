@@ -100,11 +100,11 @@ def get_module_name(full_path):
 
 
 def generate_call_event(frame):
-    frame_locals = {k: 
+    frame_locals = {k:
        {'value': process_variable(v), 'type': type(v).__name__}
        for k, v in frame.f_locals.items() if not should_ignore_variable(k)
     }
-    frame_globals = {k: 
+    frame_globals = {k:
        {'value': process_variable(v), 'type': type(v).__name__}
        for k, v in frame.f_globals.items() if not should_ignore_variable(k)
     }
@@ -185,7 +185,7 @@ def global_trace(frame, why, arg):
     return local_trace
 
 
-with open(starting_filename) as fp:
+with open(starting_filename, 'rb') as fp:
     code = compile(fp.read(), starting_filename, 'exec')
 
 
