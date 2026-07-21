@@ -73,7 +73,7 @@ def truncate_list(l):
 
 
 def format_function(f):
-    args = inspect.getargspec(f).args
+    args = inspect.getfullargspec(f).args
     return "function(%s)" % truncate_list(args)
 
 
